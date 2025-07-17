@@ -1,0 +1,42 @@
+import cltk
+from ensemble import *
+from classical_lemma import process_text, old_lemmata, lemmata, train, text
+
+test = "salvete omnes! quid agitis hodie?"
+test = process_text(test)
+
+edl = EnsembleDictLemmatizer(lemmas=lemmata)
+eul = EnsembleUnigramLemmatizer(train=train, backoff=edl)
+eodl = EnsembleDictLemmatizer(lemmas=old_lemmata, backoff=eul)
+    
+def lemma_weighting(word, lemmas):
+    potential_lemmas = []
+    for lemma in lemmas:
+        for key in lemma:
+            for item in lemma[key]:
+                potential_lemma = item[0]
+                lemma_chance = item[1]
+                if key == "<EnsembleDictLemmatizer>":
+                    lemma_chance /= 100
+                potential_lemmas.append((potential_lemma, lemma_chance))
+    weighted_lemmas = {}
+    for (lemma, chance) in potential_lemmas:
+        if not lemma in weighted_lemmas:
+            weighted_lemmas.update({lemma:chance})
+        else:
+            weighted_lemmas[lemma] += chance
+
+   # print(weighted_lemmas)
+    weighted_tuples = list(weighted_lemmas.items())
+    weights = [item[1] for item in weighted_tuples]
+    lemma = weighted_tuples[weights.index(max(weights))][0]
+    return((word, lemma)) 
+
+def lemmatize(text):
+    output_lemmas = []
+    ensemble_lemmas = eodl.lemmatize(text, lemmas_only=False)
+    for word, lemmas in ensemble_lemmas:
+        output_lemmas.append(lemma_weighting(word, lemmas))
+    return output_lemmas
+
+print(lemmatize(text))
