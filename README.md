@@ -1,4 +1,4 @@
-# icr-classical-nlp
+# latin-lemmatization
 
 ## Summary:
 
