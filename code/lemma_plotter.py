@@ -3,23 +3,28 @@ import numpy as np
 
 """For plotting the lemmatizers' data. Currently, the numbers are entered manually, but soon data will be imported and directly inputted instead."""
 
-lemmatizers = ("Simplemma \nAeneid", "Simplemma \nDBG", "Simplemma \nCicero", "Backoff \nAeneid", "Backoff \nDBG", "Backoff \nCicero", "Unigram\nAeneid", "Unigram\nDBG", "Unigram\nCicero", "Dict (old)\nAeneid", "Dict (old)\nDBG", "Dict(old) \nCicero", "Dict \nAeneid", "Dict \nDBG", "Dict\nCicero")
 
-performance = {
-    "Incorrect": np.array([14, 4, 14, 7, 2, 1, 3, 1, 1, 10, 5, 11, 0, 0, 0]),
-    "Blank": np.array([0, 0, 0, 0, 0, 0, 11, 9, 1, 18, 18, 14, 39, 36, 61]),
-    "Correct": np.array([45, 46, (76-14), 52, 48, 75, 45, 40, 74, 31, 27, 51, 20, 14, 16]),
+def plot_lemmas(errors, blanks, corrects, lemmatizers):
+    colors = ["tab:orange", "gray", "tab:green"]
+    lemmatizers = tuple(lemmatizers)
+
+    performance = {
+    "Incorrect": np.array(errors),
+    "Blank": np.array(blanks),
+    "Correct": np.array(corrects)
 }
 
-width = 0.5
-fig, ax = plt.subplots()
+    width = 0.5
+    fig, ax = plt.subplots()
 
-bottom = np.zeros(15)
+    bottom = np.zeros(len(lemmatizers))
 
-for accuracy, weight in performance.items():
-    p = ax.bar(lemmatizers, weight, width, label=accuracy, bottom=bottom)
-    bottom += weight
+    color_index = 0
+    for accuracy, weight in performance.items():
+        p = ax.bar(lemmatizers, weight, width, label=accuracy, bottom=bottom, color = colors[color_index])
+        bottom += weight
+        color_index += 1
 
-ax.legend()
+    ax.legend()
     
-plt.show()
+    plt.show()

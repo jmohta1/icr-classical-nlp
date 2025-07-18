@@ -3,6 +3,7 @@ from cltk.lemmatize.lat import LatinBackoffLemmatizer
 from cltk.stem.lat import _checkremove_que
 from cltk.text.lat import replace_jv
 from cltk.utils.file_operations import open_pickle
+from cltk.lemmatize.lat import latin_sub_patterns
 import simplemma
 
 #---------processing text--------------
@@ -68,23 +69,37 @@ identity = IdentityLemmatizer() #returns the input as a lemma
 old_diction = DictLemmatizer(lemmas=old_lemmata) #references provided "lemmas" source for exact lemma; used as last backoff in official backoff chain
 diction = DictLemmatizer(lemmas=lemmata)
 unigram = UnigramLemmatizer(train=train) #learns from training data to return lemmas
-regexp = RegexpLemmatizer(reg) #references list of replacements, runs them & returns lemma
+regexp = RegexpLemmatizer(latin_sub_patterns) #references list of replacements, runs them & returns lemma
 backoff = LatinBackoffLemmatizer(verbose=False) #runs all other lemmatizer types in a chain; if any one lemmatizer returns an output, moves on. Otherwise, continues to next lemmatizer
 
 #----------------------------------------------
 
-def lemma_optimizer(text, *args):
-    finished_lems = text
-    for i in range(len(text)):
-        for lemmatizer in args:
-            try:
-                lemmatized = lemmatizer.lemmatize([text[i]])
-            except TypeError:
-                lemmatized = [(text[i], lemmatizer.lemmatize(text[i], lang="la"))]
-            if lemmatized[0][1] != None:
-                finished_lems[i] = lemmatized[0]
-                break
-    return(finished_lems)
+class Pipeline:
+    def __init__(self, lem0, lem1, lem2, lem3, lem4, lem5):
+            self.lem0 = lem0
+            self.lem1 = lem1
+            self.lem2 = lem2
+            self.lem3 = lem3
+            self.lem4 = lem4
+            self.lem5 = lem5
+            self.lems =  [self.lem0, self.lem1, self.lem2, self.lem3, self.lem4, self.lem5]
+            for item in self.lems:
+                if item == None:
+                    self.lems.remove(item)
+                
+            
+    def lemmatize(self, text):
+        finished_lems = list(text)
+        for i in range(len(text)):
+            for lemmatizer in self.lems:
+                try:
+                    lemmatized = lemmatizer.lemmatize([text[i]])
+                except TypeError:
+                    lemmatized = [(text[i], lemmatizer.lemmatize(text[i], lang="la"))]
+                if lemmatized[0][1] != None:
+                    finished_lems[i] = lemmatized[0]
+                    break
+        return(finished_lems)
                 
 
 #demonstrates output of lemmatizers

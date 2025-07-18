@@ -1,7 +1,7 @@
 from cltk.lemmatize.backoff import *
 from cltk.utils.file_operations import open_pickle
 import simplemma
-from classical_lemma import default, identity, old_diction, diction, unigram, regexp, backoff, lemma_optimizer, process_text
+from classical_lemma import default, identity, old_diction, diction, unigram, regexp, backoff, process_text
 import json
 
 """For testing the lemmatizers & collecting data. Compares lemmatizers' output to a JSON file of correct lemmas."""
@@ -19,10 +19,6 @@ with open("icr-classical-nlp/data/data.json", "r") as file:
 text = process_text(text2)
 lemmatized = backoff.lemmatize(text)
 
-punctuation = ["!", "&", "(", ")", ";", ":", ",", ".", "?", "[", "]"]
-
-
-
 #testing system for lemmatizers; returns errors, blanks, correct, and total
 def lemma_tester(lemmatized):
     err = 0
@@ -36,13 +32,11 @@ def lemma_tester(lemmatized):
         else:
             err += 1
     correct = total - (err+blank)
-    return(f"wrong: {err}, blank: {blank}, correct: {correct}, total: {total}")
+    return({"err": err, "blank": blank, "correct": correct, "total": total})
 
 
 #compares two lemmatizers, outputting the differences between their lemmatization
 def lemma_comparer(lemma1, lemma2):
-    backlem = lemma_optimizer(list(text), diction, unigram, old_diction, identity)
-    testlem = lemma_optimizer(list(text), diction, unigram, simplemma, old_diction, identity)
     differences = [] #(old, new) tuples
     for i in range(len(text)):
         if backlem[i] != testlem[i]:
