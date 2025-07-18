@@ -15,7 +15,13 @@ Then use
 git clone git@github.com:jmohta1/icr-classical-nlp.git
 ```
 For examples of the individual CLTK lemmatizers, run ```lemmatizer_example()``` in lemma_tester.py.
-For examples of data generation, run data_collection.py.
+For examples of plot generation, run 
+```
+python3 data_collection.py
+```
+ Your result should look something like below.
+<img width="640" height="480" alt="custom_pipelines" src="https://github.com/user-attachments/assets/994baabe-5c9e-4d6d-a479-cef980cbf29d" />
+
 
 ## Introduction:
 
