@@ -20,7 +20,9 @@ For examples of plot generation, run
 python3 data_collection.py
 ```
  Your result should look something like below.
-<img width="640" height="480" alt="custom_pipelines" src="https://github.com/user-attachments/assets/994baabe-5c9e-4d6d-a479-cef980cbf29d" />
+ 
+
+<img width="640" height="480" alt="sub_lemmatizer_comparison" src="https://github.com/user-attachments/assets/bdc6b750-7861-47af-9582-a3a05629f961" />
 
 
 ## Introduction:
