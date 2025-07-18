@@ -4,6 +4,19 @@
 
 Lemmatization is a vital first step in Latin natural language processing, which enables further computational analysis of Latin texts. In this project, I tested and compared the capabilities and algorithmic strategies of various Latin lemmatizers and their components. In particular, I examined the Backoff strategy of lemmatization and compared it with the promising but unexpectedly unused Ensemble method.
 
+## Instructions for Use:
+
+Install the CLTK library with
+```
+pip install cltk
+```
+Then use 
+```
+git clone git@github.com:jmohta1/icr-classical-nlp.git
+```
+For examples of the individual CLTK lemmatizers, run ```lemmatizer_example()``` in lemma_tester.py.
+For examples of data generation, run data_collection.py.
+
 ## Introduction:
 
 In natural language processing, an important first step is to reduce tokens (grammatical chunks, e.g. words or punctuation) into simpler forms. For many languages, including English, the most efficient method is stemming, removing prefixes and suffixes to get a word's base form [CITE]. However, in some classical languages, including Latin, simple stemming algorithms are no longer effective, largely due to the many forms of each word and similar forms between different kinds of words. Instead, better results can be obtained by creating algorithms to analyze each word and figure out its base form, called its lemma [CITE]. These algorithms, called lemmatizers, employ a wide variety of different methods to lemmatize words. In this project, I focused on Latin lemmatizers' efficacy in analyzing tokens from Caesar's De Bello Gallico. I primarily experimented with the Classical Language Toolkit's Backoff Lemmatizer pipeline. 
