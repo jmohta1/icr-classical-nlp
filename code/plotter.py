@@ -28,3 +28,20 @@ def plot_lemmas(errors, blanks, corrects, lemmatizers):
     ax.legend()
     
     plt.show()
+
+    
+def plot_accuracy(plotlines, labels):
+    fig, ax = plt.subplots()
+    ax.autoscale(False)
+    ax.set_ybound(0, 100)
+    min_xval = 0
+    max_xval = 215
+    ax.set_xbound(min_xval, max_xval)
+    for i in range(len(plotlines)):
+        print("onto the next one")
+        x = np.array(plotlines[i][0])
+        y = np.array(plotlines[i][1])
+        ax.plot(x, y, label=labels[i]) 
+
+    plt.legend()
+    plt.show()
