@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-"""For plotting the lemmatizers' data. Currently, the numbers are entered manually, but soon data will be imported and directly inputted instead."""
+"""For plotting the lemmatizers' data. The functions are called by the classes in data_presentation.py."""
 
-
-def plot_lemmas(errors, blanks, corrects, lemmatizers):
-    colors = ["tab:orange", "gray", "tab:green"]
+#plots wrong, blank, right per lemmatizer; used with StackedBarGraph class
+def plot_lemmas(errors, blanks, corrects, lemmatizers, x_label, y_label):
+    colors = ["darkorange", "darkgray", "steelblue"]
     lemmatizers = tuple(lemmatizers)
 
     performance = {
@@ -26,11 +26,38 @@ def plot_lemmas(errors, blanks, corrects, lemmatizers):
         color_index += 1
 
     ax.legend()
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
     
     plt.show()
 
+#used with AdjBarGraph class
+def plot_adj_accuracies(pipelines, performances, x_label, y_label):
+
+    x = np.arange(len(pipelines))
+    width = 0.3
+    shifts = 0
+
+ 
+    fig, ax = plt.subplots()
     
-def plot_accuracy(plotlines, labels):
+    for ver, performance in performances.items():
+        offset = width*shifts
+        rects = ax.bar(x + offset, performance, width, label=ver)
+        ax.bar_label(rects, padding=3)
+        shifts += 1
+
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    ax.set_xticks(x+width*0.5, pipelines)
+    ax.set_ylim(80, 90)
+
+    plt.legend()
+    
+    plt.show()
+
+#used with accuracy graph
+def plot_accuracy(plotlines, labels, x_label, y_label):
     fig, ax = plt.subplots()
     ax.autoscale(False)
     ax.set_ybound(0, 100)
@@ -41,7 +68,10 @@ def plot_accuracy(plotlines, labels):
         print("onto the next one")
         x = np.array(plotlines[i][0])
         y = np.array(plotlines[i][1])
-        ax.plot(x, y, label=labels[i]) 
-
-    plt.legend()
+        ax.plot(x, y, label=labels[i])
+        
+    ax.legend(loc="upper right")
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    
     plt.show()

@@ -35,10 +35,12 @@ class Ensemble(Pipeline):
         potential_lemmas = []
         for lemma in lemmas:
             for key in lemma:
-                print(key)
                 for item in lemma[key]:
                     potential_lemma = item[0]
                     potential_lemma = potential_lemma.strip("1")
+                    potential_lemma = potential_lemma.strip("2")
+                    potential_lemma = potential_lemma.strip("3")
+                    potential_lemma = potential_lemma.strip("4")
                     lemma_chance = item[1]
                     if key == "<EnsembleDictLemmatizer>":
                         lemma_chance /= 100
@@ -64,5 +66,3 @@ class Ensemble(Pipeline):
         for word, lemmas in ensemble_lemmas:
             output_lemmas.append(self.lemma_weighting(word, lemmas))
         return output_lemmas
-
-
