@@ -66,6 +66,11 @@ def lemmatizer_example():
     dictlemmatized = diction.lemmatize(text)
     print(f"dictionary: {dictlemmatized}")
 
+overlap = []
+for key, item in lemmata.items():
+    if  key in old_lemmata:
+        overlap.append((key, item))
+
 
 """These lemmatizers use the Ensemble system. Instead of a chain of lemmatizers used one-by-one as in the Backoff system, the Ensemble lemmatizers run multiple lemmatizers at once and calculates the lemma based on weighted outputs."""
 

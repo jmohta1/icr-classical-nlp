@@ -56,7 +56,7 @@ def plot_adj_accuracies(pipelines, performances, x_label, y_label):
     
     plt.show()
 
-#used with accuracy graph
+#used with accuracy over time graph
 def plot_accuracy(plotlines, labels, x_label, y_label):
     fig, ax = plt.subplots()
     ax.autoscale(False)
@@ -65,12 +65,11 @@ def plot_accuracy(plotlines, labels, x_label, y_label):
     max_xval = 215
     ax.set_xbound(min_xval, max_xval)
     for i in range(len(plotlines)):
-        print("onto the next one")
         x = np.array(plotlines[i][0])
         y = np.array(plotlines[i][1])
         ax.plot(x, y, label=labels[i])
         
-    ax.legend(loc="upper right")
+    plt.legend(bbox_to_anchor=(0, 1.02, 1, .102), loc="lower left", ncols=6, mode="expand")
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     
