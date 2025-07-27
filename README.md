@@ -17,10 +17,9 @@ Then install the CLTK library with
 ```
 pip install cltk
 ```
-For examples of the individual CLTK lemmatizers, run ```lemmatizer_example()``` in lemma_tester.py.
 For examples of plot generation, run 
 ```
-python3 data_collection.py
+python3 example.py
 ```
 from this directory.
  Your result should look something like below.
